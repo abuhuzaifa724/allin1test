@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Allin1 | Professional News</title>
+    <style>
+        /* CSS Variables for Light/Dark Mode */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #1a1a1a;
+            --header-bg: #0f172a;
+            --header-text: #ffffff;
+            --accent-color: #e11d48;
+            --card-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --muted-text: #64748b;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --header-bg: #020617;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Top Bar & Ticker */
+        .top-bar {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        .ticker-label {
+            background: black;
+            padding: 2px 8px;
+            margin-right: 15px;
+            border-radius: 3px;
+        }
+        .ticker-content {
+            overflow: hidden;
+            white-space: nowrap;
+            width: 100%;
+        }
+        .ticker-text {
+            display: inline-block;
+            animation: ticker 20s linear infinite;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+        .logo span { color: var(--accent-color); }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        nav a {
+            color: var(--header-text);
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+        nav a:hover { color: var(--accent-color); }
+
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            background: none;
+            border: 2px solid var(--accent-color);
+            color: var(--header-text);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .theme-toggle:hover {
+            background-color: var(--accent-color);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+
+        /* Interactive Article Cards */
+        .featured-article {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+        .featured-article img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .featured-article:hover img {
+            transform: scale(1.05);
+        }
+        .featured-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 30px;
+            color: white;
+        }
+        .category-tag {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            border-radius: 3px;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        .news-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .news-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .news-card-content {
+            padding: 20px;
+        }
+        .news-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        .news-card p {
+            color: var(--muted-text);
+            font-size: 0.95rem;
+        }
+
+        /* Sidebar Sidebar */
+        .sidebar {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            height: fit-content;
+        }
+        .sidebar h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-color);
+        }
+        .trending-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        .trending-item:hover h4 { color: var(--accent-color); }
+        .trending-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--border-color);
+            line-height: 1;
+        }
+        .trending-item h4 {
+            font-size: 1rem;
+            margin: 0;
+            transition: color 0.2s;
+        }
+
+        @media (max-width: 900px) {
+            .container { grid-template-columns: 1fr; }
+            header { flex-direction: column; gap: 15px; }
+            nav ul { flex-wrap: wrap; justify-content: center; }
+        }
+        @media (max-width: 600px) {
+            .news-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="ticker-label">BREAKING</div>
+        <div class="ticker-content">
+            <span class="ticker-text">Global tech stocks surge following new AI advancements • Local government announces new agriculture subsidies for rural farmers • National cricket team secures thrilling victory in the final over...</span>
+        </div>
+    </div>
+
+    <header>
+        <div class="logo">Allin<span>1</span></div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Tech</a></li>
+                <li><a href="#">Business</a></li>
+                <li><a href="#">Agriculture</a></li>
+                <li><a href="#">Sports</a></li>
+            </ul>
+        </nav>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
+    </header>
+
+    <div class="container">
+        <main>
+            <article class="featured-article">
+                <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=1000&auto=format&fit=crop" alt="Featured News">
+                <div class="featured-content">
+                    <span class="category-tag">World</span>
+                    <h1 style="font-size: 2.2rem; margin-bottom: 10px;">The Future of Digital Media: How AI is Reshaping the News Industry</h1>
+                    <p>A deep dive into the technological revolution transforming how we consume information daily.</p>
+                </div>
+            </article>
+
+            <div class="news-grid">
+                <article class="news-card">
+                    <img src="https://images.unsplash.com/photo-1620912189866-47484320f51c?q=80&w=800&auto=format&fit=crop" alt="Tech News">
+                    <div class="news-card-content">
+                        <span class="category-tag">Technology</span>
+                        <h3>New Smartphone Release Shocks the Market</h3>
+                        <p>Competitors are scrambling after the unexpected announcement of the revolutionary device.</p>
+                    </div>
+                </article>
+
+                <article class="news-card">
+                    <img src="https://images.unsplash.com/photo-1592982537447-6f2334965c26?q=80&w=800&auto=format&fit=crop" alt="Agriculture">
+                    <div class="news-card-content">
+                        <span class="category-tag">Agriculture</span>
+                        <h3>Smart Farming: Drones Taking Over Crop Management</h3>
+                        <p>Farmers report a 30% increase in yield after implementing new automated monitoring systems.</p>
+                    </div>
+                </article>
+            </div>
+        </main>
+
+        <aside class="sidebar">
+            <h2>Trending Now</h2>
+            
+            <div class="trending-item">
+                <div class="trending-number">1</div>
+                <div>
+                    <span style="color: var(--accent-color); font-size: 0.8rem; font-weight: bold;">SPORTS</span>
+                    <h4>Championship Finals Scheduled for Next Weekend in Dhaka</h4>
+                </div>
+            </div>
+
+            <div class="trending-item">
+                <div class="trending-number">2</div>
+                <div>
+                    <span style="color: var(--accent-color); font-size: 0.8rem; font-weight: bold;">BUSINESS</span>
+                    <h4>Freelancing and Remote Work Hit Record Highs This Quarter</h4>
+                </div>
+            </div>
+
+            <div class="trending-item">
+                <div class="trending-number">3</div>
+                <div>
+                    <span style="color: var(--accent-color); font-size: 0.8rem; font-weight: bold;">LOCAL</span>
+                    <h4>New Highway Project Promises to Reduce Commute Times by Half</h4>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        // Dark Mode Toggle Logic
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.querySelector('.theme-toggle');
+            
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                btn.innerHTML = '🌙 Dark Mode';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                btn.innerHTML = '☀️ Light Mode';
+            }
+        }
+    </script>
+</body>
+</html>
